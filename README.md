@@ -1,6 +1,6 @@
-# leopard
+# Leopard
 
-An Electron application with React and TypeScript
+An Electron application with React, TypeScript and Tailwind
 
 ## Recommended IDE Setup
 
