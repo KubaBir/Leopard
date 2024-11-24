@@ -1,7 +1,6 @@
 import Layout from '../components/Layout'
 import RedirectButton from '../components/RedirectButton'
 import axios from 'axios'
-import axios from 'axios'
 
 export default function Home(): JSX.Element {
   async function handlePing(): Promise<undefined> {
