@@ -12,7 +12,7 @@ export function AppRouter(): JSX.Element {
   useEffect((): (() => void) => {
     const interval = setInterval(() => {
       testConnection()
-    }, 1000)
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [testConnection])
