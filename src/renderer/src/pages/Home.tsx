@@ -1,23 +1,8 @@
 import Layout from '../components/Layout'
 import RedirectButton from '../components/RedirectButton'
 import { useFetch } from '@renderer/hooks/useFetch'
-import { useEffect } from 'react'
 export default function Home(): JSX.Element {
-  const { makeCall: testConnection, data: data } = useFetch({ data: 'ping' }, '/ping')
-
-  useEffect(() => {
-    const check = async (): Promise<void> => {
-      if (data === 'pong') {
-        await window.electron.ipcRenderer.invoke('show-message-box', {
-          title: 'Connection test',
-          message: 'Pong',
-          buttons: ['OK']
-        })
-        console.log('Got pong')
-      }
-    }
-    check()
-  }, [data])
+  const { makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
 
   return (
     <Layout>

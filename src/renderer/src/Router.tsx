@@ -7,18 +7,12 @@ import Commander from './pages/Commander'
 import { useFetch } from './hooks/useFetch'
 import { useEffect } from 'react'
 export function AppRouter(): JSX.Element {
-  const { data, makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
+  const { makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
 
   useEffect((): (() => void) => {
-    const interval = setInterval(() => {
-      testConnection()
-    }, 5000)
+    const interval = setInterval(async () => {
+      const data = await testConnection()
 
-    return () => clearInterval(interval)
-  }, [testConnection])
-
-  useEffect((): void => {
-    const check = async (): Promise<void> => {
       if (data !== 'pong') {
         await window.electron.ipcRenderer.invoke('show-message-box', {
           title: 'Connection test',
@@ -26,9 +20,11 @@ export function AppRouter(): JSX.Element {
           buttons: ['OK']
         })
       }
-    }
-    check()
-  }, [data])
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [testConnection])
+
   return (
     <Router>
       <Routes>

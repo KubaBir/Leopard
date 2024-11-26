@@ -1,18 +1,14 @@
 import axios from 'axios'
-import { useState } from 'react'
 
 export const useFetch = (
   arg: { [key: string]: number | string },
   url?: string
-): { data: string | null; makeCall: () => Promise<void> } => {
-  const [data, setData] = useState(null)
+): { makeCall: () => Promise<string | void> } => {
   const final_url = url ? url : '/request'
-
-  const makeCall = async (): Promise<void> => {
+  const makeCall = async (): Promise<string | void> => {
     try {
       const response = await axios.post(final_url, arg)
-      setData(data)
-      console.log(response.data)
+      return response.data
     } catch (err) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: err.name,
@@ -22,5 +18,5 @@ export const useFetch = (
     }
   }
 
-  return { data, makeCall }
+  return { makeCall }
 }
