@@ -1,7 +1,7 @@
 import Layout from '../components/Layout'
 import ActionButton from '../components/ActionButton'
 export default function Driver(): JSX.Element {
-  const fetchEndpoint = '/shooter'
+  const fetchEndpoint = '/driver'
 
   return (
     <Layout>
