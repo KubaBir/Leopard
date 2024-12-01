@@ -2,17 +2,20 @@ import { useFetch } from '../hooks/useFetch'
 
 interface ActionButtonProps {
   code: number
+  throttle?: number
   text: string
   fetchEndpoint: string
 }
 
 export default function ActionButton({
   code,
+  throttle,
   fetchEndpoint,
   text
 }: ActionButtonProps): JSX.Element {
-  const { makeCall: makeCall } = useFetch({ code: code }, fetchEndpoint)
-  const { makeCall: cancelRequest } = useFetch({ code: code }, `${fetchEndpoint}/cancel`)
+  const requestData = { code, throttle }
+  const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)
+  const { makeCall: cancelRequest } = useFetch(requestData, `${fetchEndpoint}/cancel`)
 
   return (
     <button
