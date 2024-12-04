@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 export const useFetch = (
-  arg: { [key: string]: number | string },
+  args: { code: number; throttle?: number },
   url?: string
 ): { makeCall: () => Promise<string | void> } => {
   const final_url = url ? url : '/request'
   const makeCall = async (): Promise<string | void> => {
     try {
-      const response = await axios.post(final_url, arg)
+      const response = await axios.post(final_url, args)
       return response.data
     } catch (err) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
