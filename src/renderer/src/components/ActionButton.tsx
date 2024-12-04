@@ -5,13 +5,15 @@ interface ActionButtonProps {
   throttle?: number
   text: string
   fetchEndpoint: string
+  shouldCancel?: boolean
 }
 
 export default function ActionButton({
   code,
   throttle,
   fetchEndpoint,
-  text
+  text,
+  shouldCancel = true
 }: ActionButtonProps): JSX.Element {
   const requestData = { code, throttle }
   const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)

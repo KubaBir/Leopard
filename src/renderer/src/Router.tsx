@@ -9,21 +9,21 @@ import { useEffect } from 'react'
 export function AppRouter(): JSX.Element {
   const { makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
 
-  useEffect((): (() => void) => {
-    const interval = setInterval(async () => {
-      const data = await testConnection()
+  // useEffect((): (() => void) => {
+  //   const interval = setInterval(async () => {
+  //     const data = await testConnection()
 
-      if (data !== 'pong') {
-        await window.electron.ipcRenderer.invoke('show-message-box', {
-          title: 'Connection test',
-          message: 'You lost a connection to the Leopard',
-          buttons: ['OK']
-        })
-      }
-    }, 5000)
+  //     if (data !== 'pong') {
+  //       await window.electron.ipcRenderer.invoke('show-message-box', {
+  //         title: 'Connection test',
+  //         message: 'You lost a connection to the Leopard',
+  //         buttons: ['OK']
+  //       })
+  //     }
+  //   }, 5000)
 
-    return () => clearInterval(interval)
-  }, [testConnection])
+  //   return () => clearInterval(interval)
+  // }, [testConnection])
 
   return (
     <Router>

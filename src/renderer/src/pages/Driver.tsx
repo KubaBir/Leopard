@@ -35,7 +35,7 @@ export default function Driver(): JSX.Element {
           valueLabelDisplay="auto"
           value={throttle}
           onChange={(_event, val) => typeof val === 'number' && setThrottle(val)}
-          min={20}
+          min={10}
           max={100}
         />
       </div>
