@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useFetch } from '../hooks/useFetch'
-import { useAnyButtonClicked } from '@renderer/contexts/AnyButtonClickedContext'
 interface ActionButtonProps {
   code: number
   throttle?: number
@@ -22,22 +21,19 @@ export default function ActionButton({
   const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)
   const { makeCall: cancelRequest } = useFetch(requestData, `${fetchEndpoint}/cancel`)
   const [isActive, setIsActive] = useState(false)
-  const { buttonClicked, setButtonClicked } = useAnyButtonClicked()
 
   const handleRequest = (): void => {
     makeCall()
     setIsActive(true)
-    setButtonClicked(true)
   }
 
   const handleCancel = (): void => {
     cancelRequest()
     setIsActive(false)
-    setButtonClicked(false)
   }
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key.toLocaleLowerCase() === keyboardKey?.toLocaleLowerCase() && !buttonClicked) {
+      if (event.key.toLocaleLowerCase() === keyboardKey?.toLocaleLowerCase() && !isActive) {
         handleRequest()
       }
     }
@@ -55,14 +51,12 @@ export default function ActionButton({
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('keyup', handleKeyUp)
     }
-  }, [keyboardKey, makeCall, cancelRequest, buttonClicked, setButtonClicked])
-
-  useEffect(() => console.log('bnutton clicked', buttonClicked), [buttonClicked])
+  }, [keyboardKey, makeCall, cancelRequest])
   return (
     <button
       className={`bg-gray-500 py-2 px-3 rounded-md w-32  ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'}`}
       onMouseDown={() => {
-        if (!buttonClicked) {
+        if (!isActive) {
           handleRequest()
         }
       }}
