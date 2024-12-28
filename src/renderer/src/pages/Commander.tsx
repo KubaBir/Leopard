@@ -7,14 +7,27 @@ export default function Commander(): JSX.Element {
   const fetchEndpoint = '/commander'
 
   const [throttle, setThrottle] = useState(80)
+
   return (
     <Layout>
       <h1>Commander</h1>
 
       <div className="flex gap-24 h-64">
         <div className="flex gap-6">
-          <ActionButton fetchEndpoint={fetchEndpoint} code={105} throttle={throttle} text="Left" />
-          <ActionButton fetchEndpoint={fetchEndpoint} code={106} throttle={throttle} text="Right" />
+          <ActionButton
+            fetchEndpoint={fetchEndpoint}
+            code={105}
+            throttle={throttle}
+            text="Left"
+            keyboardKey="a"
+          />
+          <ActionButton
+            fetchEndpoint={fetchEndpoint}
+            code={106}
+            throttle={throttle}
+            text="Right"
+            keyboardKey="d"
+          />
         </div>
 
         <Slider
