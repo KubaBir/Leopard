@@ -7,7 +7,7 @@ import Commander from './pages/Commander'
 import { useFetch } from './hooks/useFetch'
 import { useEffect } from 'react'
 export function AppRouter(): JSX.Element {
-  const { makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
+  // const { makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
 
   // useEffect((): (() => void) => {
   //   const interval = setInterval(async () => {
