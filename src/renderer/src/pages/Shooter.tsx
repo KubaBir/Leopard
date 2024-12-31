@@ -3,11 +3,10 @@ import Layout from '../components/Layout'
 import { useState, useEffect } from 'react'
 import { useWebSocket } from '../contexts/WebSocketContext'
 import sight from '../assets/svg/sight.svg'
-import ActionButton from '@renderer/components/ActionButton'
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
-  const [isRocketLoaded, setIsRocketLoaded] = useState(false)
-  const [isAmmoLoaded, setIsAmmoLoaded] = useState(false)
+  const [isCanonLoaded, setIsCanonLoaded] = useState(false)
+  const [isGunLoaded, setIsGunLoaded] = useState(false)
 
   const ws = useWebSocket()
   useEffect(() => {
@@ -15,17 +14,17 @@ export default function Shooter(): JSX.Element {
       ws.onmessage = (event): void => {
         const data = JSON.parse(event.data)
 
-        if (data.type === 'isRocketLoaded') {
-          setIsRocketLoaded(data.isRocketLoaded)
-        } else if (data.type === 'isAmmoLoaded') {
+        if (data.type === 'isCanonLoaded') {
+          setIsCanonLoaded(data.isCanonLoaded)
+        } else if (data.type === 'isGunLoaded') {
           console.log(data)
-          setIsAmmoLoaded(data.isAmmoLoaded)
+          setIsGunLoaded(data.isGunLoaded)
         }
       }
       const checkAndSend = (): void => {
         if (ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify({ type: 'getIsRocketLoaded' }))
-          ws.send(JSON.stringify({ type: 'getIsAmmoLoaded' }))
+          ws.send(JSON.stringify({ type: 'getIsCanonLoaded' }))
+          ws.send(JSON.stringify({ type: 'getIsGunLoaded' }))
         } else {
           setTimeout(checkAndSend, 100)
         }
@@ -35,16 +34,16 @@ export default function Shooter(): JSX.Element {
     }
   }, [ws])
 
-  const handleRocketShot = (): void => {
+  const handleCanonShot = (): void => {
     if (ws) {
-      ws.send(JSON.stringify({ type: 'setIsRocketLoaded' }))
-      setIsRocketLoaded(false)
+      ws.send(JSON.stringify({ type: 'setIsCanonLoaded' }))
+      setIsCanonLoaded(false)
     }
   }
   const handleGunShot = (): void => {
     if (ws) {
-      ws.send(JSON.stringify({ type: 'setIsAmmoLoaded' }))
-      setIsAmmoLoaded(false)
+      ws.send(JSON.stringify({ type: 'setIsGunLoaded' }))
+      setIsGunLoaded(false)
     }
   }
   return (
@@ -56,15 +55,15 @@ export default function Shooter(): JSX.Element {
             fetchEndpoint={fetchEndpoint}
             code={110}
             text="Cannon"
-            onAction={handleRocketShot}
-            disabled={!isRocketLoaded}
+            onAction={handleCanonShot}
+            disabled={!isCanonLoaded}
           ></ShootButton>
           <ShootButton
             fetchEndpoint={fetchEndpoint}
             code={111}
             text="Gun"
             onAction={handleGunShot}
-            disabled={!isAmmoLoaded}
+            disabled={!isGunLoaded}
           ></ShootButton>
         </div>
         <div className="flex flex-col items-center justify-center gap-5 p-4 w-3/5">
