@@ -6,7 +6,8 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [ws, setWs] = useState<WebSocket | null>(null)
 
   useEffect(() => {
-    const websocket = new WebSocket('ws://localhost:3000')
+    // const websocket = new WebSocket('ws://localhost:3000')
+    const websocket = new WebSocket('ws://192.168.4.1')
 
     websocket.onopen = (): void => {
       console.log('Connected to WebSocket')
