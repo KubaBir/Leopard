@@ -7,6 +7,9 @@ interface ActionButtonProps {
   fetchEndpoint: string
   shouldCancel?: boolean
   keyboardKey?: string
+  onAction?: () => void
+  className?: string
+  disabled?: boolean
 }
 
 export default function ActionButton({
@@ -15,7 +18,10 @@ export default function ActionButton({
   fetchEndpoint,
   text,
   shouldCancel = true,
-  keyboardKey
+  keyboardKey,
+  onAction,
+  className,
+  disabled
 }: ActionButtonProps): JSX.Element {
   const requestData = { code, throttle }
   const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)
@@ -54,7 +60,11 @@ export default function ActionButton({
   }, [keyboardKey, makeCall, cancelRequest])
   return (
     <button
-      className={`bg-gray-500 py-2 px-3 rounded-md w-32  ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'}`}
+      disabled={disabled}
+      className={
+        className ||
+        `bg-gray-500 py-2 px-3 rounded-md w-32 ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'}`
+      }
       onMouseDown={() => {
         if (!isActive) {
           handleRequest()
@@ -63,6 +73,9 @@ export default function ActionButton({
       onMouseUp={() => {
         if (isActive) {
           handleCancel()
+          if (onAction) {
+            onAction()
+          }
         }
       }}
     >

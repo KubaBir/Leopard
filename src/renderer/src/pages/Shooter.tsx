@@ -1,8 +1,9 @@
-import ShootButton from '@renderer/components/ShootButton'
 import Layout from '../components/Layout'
 import { useState, useEffect } from 'react'
 import { useWebSocket } from '../contexts/WebSocketContext'
 import sight from '../assets/svg/sight.svg'
+import ActionButton from '@renderer/components/ActionButton'
+
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isCanonLoaded, setIsCanonLoaded] = useState(false)
@@ -49,21 +50,32 @@ export default function Shooter(): JSX.Element {
     <Layout>
       <div className="w-full h-full flex justify-between">
         <div className="w-1/5 mt-24 flex flex-col items-start gap-8">
-          {' '}
-          <ShootButton
-            fetchEndpoint={fetchEndpoint}
-            code={110}
-            text="Cannon"
-            onAction={handleCanonShot}
-            disabled={!isCanonLoaded}
-          ></ShootButton>
-          <ShootButton
-            fetchEndpoint={fetchEndpoint}
-            code={111}
-            text="Gun"
-            onAction={handleGunShot}
-            disabled={!isGunLoaded}
-          ></ShootButton>
+          <div className="flex flex-col items-center gap-2">
+            <div
+              className={`h-6 w-6 rounded-full ${!isCanonLoaded ? 'bg-red-700' : 'bg-green-600'}`}
+            ></div>
+            <ActionButton
+              fetchEndpoint={fetchEndpoint}
+              code={110}
+              text="Cannon"
+              onAction={handleCanonShot}
+              disabled={!isCanonLoaded}
+              className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
+            ></ActionButton>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <div
+              className={`h-6 w-6 rounded-full ${!isGunLoaded ? 'bg-red-700' : 'bg-green-600'}`}
+            ></div>
+            <ActionButton
+              fetchEndpoint={fetchEndpoint}
+              code={111}
+              text="Gun"
+              onAction={handleGunShot}
+              disabled={!isGunLoaded}
+              className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
+            ></ActionButton>
+          </div>
         </div>
         <div className="flex flex-col items-center justify-center gap-5 p-4 w-3/5">
           <img src={sight} className="h-4/5"></img>
