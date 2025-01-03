@@ -38,49 +38,61 @@ export default function Reloader(): JSX.Element {
     }
   }, [ws])
 
-  useEffect(() => {
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().catch((err) =>
-        console.error('Notification permission request failed:', err)
+  const handlecanonLoad = async (): Promise<void> => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      setCanonCounter((prevCounter) =>
+        prevCounter > 0 && !isCanonLoaded ? prevCounter - 1 : prevCounter
       )
-    }
-  }, [])
-
-  const handlecanonLoad = (): void => {
-    setCanonCounter((prevCounter) =>
-      prevCounter > 0 && !isCanonLoaded ? prevCounter - 1 : prevCounter
-    )
-    if (canonCounter > 0 && !isCanonLoaded) {
-      if (ws) {
+      if (canonCounter > 0 && !isCanonLoaded) {
         ws.send(JSON.stringify({ type: 'setIsCanonLoaded' }))
+      } else if (isCanonLoaded) {
+        await window.electron.ipcRenderer.invoke('show-message-box', {
+          title: 'Info',
+          message: 'Canon is already Loaded!',
+          buttons: ['OK']
+        })
+      } else if (canonCounter === 0) {
+        await window.electron.ipcRenderer.invoke('show-message-box', {
+          title: 'Info',
+          message: 'You do not have canon ammo',
+          buttons: ['OK']
+        })
       }
-    } else if (isCanonLoaded) {
-      if (Notification.permission === 'granted') {
-        new Notification('Already Loaded!')
-      }
-    } else if (canonCounter == 0) {
-      if (Notification.permission === 'granted') {
-        new Notification('Already Loaded!')
-      }
+    } else {
+      await window.electron.ipcRenderer.invoke('show-message-box', {
+        title: 'Error',
+        message: 'Cannot connect to the server',
+        buttons: ['OK']
+      })
     }
   }
 
-  const handleGunLoad = (): void => {
-    setGunCounter((prevCounter) =>
-      prevCounter > 0 && !isGunLoaded ? prevCounter - 1 : prevCounter
-    )
-    if (gunCounter > 0 && !isGunLoaded) {
-      if (ws) {
+  const handleGunLoad = async (): Promise<void> => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      setGunCounter((prevCounter) =>
+        prevCounter > 0 && !isGunLoaded ? prevCounter - 1 : prevCounter
+      )
+      if (gunCounter > 0 && !isGunLoaded) {
         ws.send(JSON.stringify({ type: 'setIsGunLoaded' }))
+      } else if (isGunLoaded) {
+        await window.electron.ipcRenderer.invoke('show-message-box', {
+          title: 'Info',
+          message: 'Gun is already Loaded!',
+          buttons: ['OK']
+        })
+      } else if (gunCounter === 0) {
+        await window.electron.ipcRenderer.invoke('show-message-box', {
+          title: 'Info',
+          message: 'You do not have gun ammo',
+          buttons: ['OK']
+        })
       }
-    } else if (isGunLoaded) {
-      if (Notification.permission === 'granted') {
-        new Notification('Already Loaded!')
-      }
-    } else if (gunCounter == 0) {
-      if (Notification.permission === 'granted') {
-        new Notification('Already Loaded!')
-      }
+    } else {
+      await window.electron.ipcRenderer.invoke('show-message-box', {
+        title: 'Error',
+        message: 'Cannot connect to the server',
+        buttons: ['OK']
+      })
     }
   }
 

@@ -4,17 +4,25 @@ const WebSocketContext = createContext<WebSocket | null>(null)
 
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [ws, setWs] = useState<WebSocket | null>(null)
+  const [shouldReconnect, setShouldReconnect] = useState(true)
 
-  useEffect(() => {
-    // const websocket = new WebSocket('ws://localhost:3000')
-    const websocket = new WebSocket('ws://192.168.4.1')
+  const connectWebSocket = (): void => {
+    const websocket = new WebSocket('ws://localhost:3000')
+    // const websocket = new WebSocket('ws://192.168.4.1:81')
 
     websocket.onopen = (): void => {
       console.log('Connected to WebSocket')
+      setShouldReconnect(true)
     }
 
     websocket.onclose = (): void => {
       console.log('Disconnected from WebSocket')
+      if (shouldReconnect) {
+        setTimeout(() => {
+          console.log(`Reconnecting to WebSocket`)
+          connectWebSocket()
+        }, 2000)
+      }
     }
 
     websocket.onerror = (error): void => {
@@ -22,9 +30,16 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
 
     setWs(websocket)
+  }
+
+  useEffect(() => {
+    connectWebSocket()
 
     return (): void => {
-      websocket.close()
+      setShouldReconnect(false)
+      if (ws) {
+        ws.close()
+      }
     }
   }, [])
 

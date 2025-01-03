@@ -17,7 +17,6 @@ export default function Shooter(): JSX.Element {
         if (data.type === 'isCanonLoaded') {
           setIsCanonLoaded(data.isCanonLoaded)
         } else if (data.type === 'isGunLoaded') {
-          console.log(data)
           setIsGunLoaded(data.isGunLoaded)
         }
       }
