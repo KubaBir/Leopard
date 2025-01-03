@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps): JSX.Element {
   return (
-    <div className="w-screen h-screen bg-black flex justify-center items-center relative">
+    <div className="w-screen h-screen bg-black flex justify-center items-center relative overflow-clip">
       <div className="absolute top-0 left-0 ">
         <RedirectButton to="/">Home</RedirectButton>
       </div>

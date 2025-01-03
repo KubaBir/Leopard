@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 import { useFetch } from '../hooks/useFetch'
 interface ActionButtonProps {
   code: number
   throttle?: number
-  text: string
+  text: string | JSX.Element
   fetchEndpoint: string
   shouldCancel?: boolean
   keyboardKey?: string
   onAction?: () => void
   className?: string
   disabled?: boolean
+  children?: ReactElement
 }
 
 export default function ActionButton({
@@ -21,7 +23,8 @@ export default function ActionButton({
   keyboardKey,
   onAction,
   className,
-  disabled
+  disabled,
+  children
 }: ActionButtonProps): JSX.Element {
   const requestData = { code, throttle }
   const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)
@@ -63,7 +66,7 @@ export default function ActionButton({
       disabled={disabled}
       className={
         className ||
-        `bg-gray-500 py-2 px-3 rounded-md w-32 ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'}`
+        `py-2 px-3 rounded-md w-32  ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'} ${children ? 'hover:scale-105' : 'bg-gray-500 hover:bg-gray-600'}`
       }
       onMouseDown={() => {
         if (!isActive) {
@@ -79,7 +82,7 @@ export default function ActionButton({
         }
       }}
     >
-      {text}
+      {children ?? text}
     </button>
   )
 }
