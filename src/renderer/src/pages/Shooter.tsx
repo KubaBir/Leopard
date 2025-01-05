@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useWebSocket } from '../contexts/WebSocketContext'
 import sight from '../assets/svg/sight.svg'
 import ActionButton from '@renderer/components/ActionButton'
+import ThrottleSlider from '@renderer/components/ThrottleSlider'
 
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
