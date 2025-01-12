@@ -82,7 +82,9 @@ export default function Reloader(): JSX.Element {
 
   return (
     <Layout>
-      <div className="h-full w-full flex justify-between">
+      <div
+        className={`h-full w-full flex justify-between bg-[url(../assets/images/loader.webp)] bg-cover`}
+      >
         <div className="flex flex-col gap-9 mt-24 w-1/3">
           <AmmoCounter counter={canonCounter} icon={CanonIcon}></AmmoCounter>
           <AmmoCounter counter={gunCounter} icon={GunIcon}></AmmoCounter>

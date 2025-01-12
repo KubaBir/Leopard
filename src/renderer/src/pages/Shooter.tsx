@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react'
 import sight from '../assets/svg/sight.svg'
 import ActionButton from '@renderer/components/ActionButton'
 import ThrottleSlider from '@renderer/components/ThrottleSlider'
+import { KeyboardArrowUp } from '@mui/icons-material'
+import { KeyboardArrowDown } from '@mui/icons-material'
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
-
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
@@ -49,7 +50,7 @@ export default function Shooter(): JSX.Element {
   return (
     <Layout>
       <div className="w-full h-full flex justify-between">
-        <div className="w-1/5 mt-24 flex flex-col items-start gap-8">
+        <div className="w-1/5  flex flex-col items-start gap-8 px-4 justify-center">
           <div className="flex flex-col items-center gap-2">
             <div
               className={`h-6 w-6 rounded-full ${!isLoaded.isCanonLoaded ? 'bg-red-700' : 'bg-green-600'}`}
@@ -57,9 +58,12 @@ export default function Shooter(): JSX.Element {
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={110}
-              text="Cannon"
+              text="Cannon shot"
               onAction={handleCanonShot}
-              disabled={!isLoaded.isCanonLoaded}
+
+              disabled={!isCanonLoaded}
+              keyboardKey="k"
+
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
@@ -70,9 +74,11 @@ export default function Shooter(): JSX.Element {
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={111}
-              text="Gun"
+              text="Machine gun shot"
               onAction={handleGunShot}
+              keyboardKey="l"
               disabled={!isLoaded.isGunLoaded}
+
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
@@ -80,7 +86,20 @@ export default function Shooter(): JSX.Element {
         <div className="flex flex-col items-center justify-center gap-5 p-4 w-3/5">
           <img src={sight} className="h-4/5"></img>
         </div>
-        <div className="w-1/5"></div>
+        <div className="w-1/5 flex justify-center items-center flex-col gap-8">
+          <ActionButton
+            fetchEndpoint={fetchEndpoint}
+            code={108}
+            text={<KeyboardArrowUp />}
+            keyboardKey="w"
+          />
+          <ActionButton
+            fetchEndpoint={fetchEndpoint}
+            code={109}
+            text={<KeyboardArrowDown />}
+            keyboardKey="s"
+          />
+        </div>
       </div>
     </Layout>
   )
