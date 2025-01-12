@@ -1,50 +1,49 @@
 import Layout from '../components/Layout'
 import { useState, useEffect } from 'react'
-import { useWebSocket } from '../contexts/WebSocketContext'
 import sight from '../assets/svg/sight.svg'
 import ActionButton from '@renderer/components/ActionButton'
 import ThrottleSlider from '@renderer/components/ThrottleSlider'
+import { useFetch, LoadedResponse } from '../hooks/useFetch'
 
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
-  const [isCanonLoaded, setIsCanonLoaded] = useState(false)
-  const [isGunLoaded, setIsGunLoaded] = useState(false)
-
-  const ws = useWebSocket()
+  const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
+    isCanonLoaded: false,
+    isGunLoaded: false
+  })
+  const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
+  const { makeCall: shootCannon } = useFetch({}, '/setIsCanonLoaded', true)
+  const { makeCall: shootGun } = useFetch({}, '/setIsGunLoaded', true)
   useEffect(() => {
-    if (ws) {
-      ws.onmessage = (event): void => {
-        const data = JSON.parse(event.data)
-
-        if (data.type === 'isCanonLoaded') {
-          setIsCanonLoaded(data.isCanonLoaded)
-        } else if (data.type === 'isGunLoaded') {
-          setIsGunLoaded(data.isGunLoaded)
-        }
+    const fetchLoadedStatus = async (): Promise<void> => {
+      const data = await checkIsLoaded()
+      if (data && typeof data !== 'string') {
+        setIsLoaded(data)
       }
-      const checkAndSend = (): void => {
-        if (ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify({ type: 'getIsCanonLoaded' }))
-          ws.send(JSON.stringify({ type: 'getIsGunLoaded' }))
-        } else {
-          setTimeout(checkAndSend, 100)
-        }
-      }
-
-      checkAndSend()
     }
-  }, [ws])
+    fetchLoadedStatus()
+    const intervalId = setInterval(fetchLoadedStatus, 2000)
 
-  const handleCanonShot = (): void => {
-    if (ws) {
-      ws.send(JSON.stringify({ type: 'setIsCanonLoaded' }))
-      setIsCanonLoaded(false)
+    return (): void => clearInterval(intervalId)
+  }, [])
+
+  const handleCanonShot = async (): Promise<void> => {
+    if (isLoaded.isCanonLoaded) {
+      setIsLoaded((prevState) => ({
+        ...prevState,
+        isCanonLoaded: false
+      }))
+      await shootCannon()
     }
   }
-  const handleGunShot = (): void => {
-    if (ws) {
-      ws.send(JSON.stringify({ type: 'setIsGunLoaded' }))
-      setIsGunLoaded(false)
+
+  const handleGunShot = async (): Promise<void> => {
+    if (isLoaded.isGunLoaded) {
+      setIsLoaded((prevState) => ({
+        ...prevState,
+        isGunLoaded: false
+      }))
+      await shootGun()
     }
   }
   return (
@@ -53,27 +52,27 @@ export default function Shooter(): JSX.Element {
         <div className="w-1/5 mt-24 flex flex-col items-start gap-8">
           <div className="flex flex-col items-center gap-2">
             <div
-              className={`h-6 w-6 rounded-full ${!isCanonLoaded ? 'bg-red-700' : 'bg-green-600'}`}
+              className={`h-6 w-6 rounded-full ${!isLoaded.isCanonLoaded ? 'bg-red-700' : 'bg-green-600'}`}
             ></div>
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={110}
               text="Cannon"
               onAction={handleCanonShot}
-              disabled={!isCanonLoaded}
+              disabled={!isLoaded.isCanonLoaded}
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
           <div className="flex flex-col items-center gap-2">
             <div
-              className={`h-6 w-6 rounded-full ${!isGunLoaded ? 'bg-red-700' : 'bg-green-600'}`}
+              className={`h-6 w-6 rounded-full ${!isLoaded.isGunLoaded ? 'bg-red-700' : 'bg-green-600'}`}
             ></div>
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={111}
               text="Gun"
               onAction={handleGunShot}
-              disabled={!isGunLoaded}
+              disabled={!isLoaded.isGunLoaded}
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
