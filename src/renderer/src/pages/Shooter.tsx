@@ -61,7 +61,7 @@ export default function Shooter(): JSX.Element {
               text="Cannon shot"
               onAction={handleCanonShot}
 
-              disabled={!isCanonLoaded}
+              disabled={!isLoaded.isCanonLoaded }
               keyboardKey="k"
 
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
