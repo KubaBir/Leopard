@@ -7,6 +7,8 @@ import Reverse from '../assets/svg/reverse.svg'
 import BatteryFull from '../assets/svg/batery-full.svg'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { KeyboardArrowLeft } from '@mui/icons-material'
+import { CameraView } from '@renderer/components/CameraView'
+import { cameraUrls } from '../config'
 
 export default function Driver(): JSX.Element {
   const fetchEndpoint = '/driver'
@@ -15,6 +17,8 @@ export default function Driver(): JSX.Element {
 
   return (
     <Layout>
+      <CameraView address={cameraUrls.driver} />
+
       <div className="absolute bottom-4 left-4">
         <ThrottleSlider numBars={8} value={throttle} setValue={setThrottle} />
       </div>

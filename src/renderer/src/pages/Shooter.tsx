@@ -6,6 +6,9 @@ import ThrottleSlider from '@renderer/components/ThrottleSlider'
 import { KeyboardArrowUp } from '@mui/icons-material'
 import { KeyboardArrowDown } from '@mui/icons-material'
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
+import { CameraView } from '@renderer/components/CameraView'
+import { cameraUrls } from '../config'
+
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
@@ -49,6 +52,8 @@ export default function Shooter(): JSX.Element {
   }
   return (
     <Layout>
+      <CameraView address={cameraUrls.shooter} />
+
       <div className="w-full h-full flex justify-between">
         <div className="w-1/5  flex flex-col items-start gap-8 px-4 justify-center">
           <div className="flex flex-col items-center gap-2">
@@ -60,10 +65,8 @@ export default function Shooter(): JSX.Element {
               code={110}
               text="Cannon shot"
               onAction={handleCanonShot}
-
-              disabled={!isLoaded.isCanonLoaded }
+              disabled={!isLoaded.isCanonLoaded}
               keyboardKey="k"
-
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
@@ -78,7 +81,6 @@ export default function Shooter(): JSX.Element {
               onAction={handleGunShot}
               keyboardKey="l"
               disabled={!isLoaded.isGunLoaded}
-
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
