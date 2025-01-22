@@ -66,7 +66,7 @@ export default function ActionButton({
       disabled={disabled}
       className={
         className ||
-        `py-2 px-3 rounded-md w-32  ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'} ${children ? 'hover:scale-105' : 'bg-gray-500 hover:bg-gray-600'}`
+        `py-2 px-3 rounded-md w-24  ${isActive ? 'bg-gray-800' : 'hover:bg-gray-600'} ${children ? 'hover:scale-105' : 'bg-gray-500 hover:bg-gray-600'}`
       }
       onMouseDown={() => {
         if (!isActive) {

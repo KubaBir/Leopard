@@ -3,8 +3,12 @@ import { useState, useEffect } from 'react'
 import sight from '../assets/svg/sight.svg'
 import ActionButton from '@renderer/components/ActionButton'
 import ThrottleSlider from '@renderer/components/ThrottleSlider'
-import { KeyboardArrowUp } from '@mui/icons-material'
-import { KeyboardArrowDown } from '@mui/icons-material'
+import {
+  KeyboardArrowUp,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  KeyboardArrowDown
+} from '@mui/icons-material'
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
@@ -12,9 +16,12 @@ export default function Shooter(): JSX.Element {
     isCanonLoaded: false,
     isGunLoaded: false
   })
+  const [throttle, setThrottle] = useState(80)
+
   const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
   const { makeCall: shootCannon } = useFetch({}, '/setIsCanonLoaded', true)
   const { makeCall: shootGun } = useFetch({}, '/setIsGunLoaded', true)
+
   useEffect(() => {
     const fetchLoadedStatus = async (): Promise<void> => {
       const data = await checkIsLoaded()
@@ -60,10 +67,8 @@ export default function Shooter(): JSX.Element {
               code={110}
               text="Cannon shot"
               onAction={handleCanonShot}
-
-              disabled={!isLoaded.isCanonLoaded }
+              disabled={!isLoaded.isCanonLoaded}
               keyboardKey="k"
-
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
@@ -78,9 +83,11 @@ export default function Shooter(): JSX.Element {
               onAction={handleGunShot}
               keyboardKey="l"
               disabled={!isLoaded.isGunLoaded}
-
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
+          </div>
+          <div className="flex justify-center items-center">
+            <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />
           </div>
         </div>
         <div className="flex flex-col items-center justify-center gap-5 p-4 w-3/5">
@@ -93,6 +100,24 @@ export default function Shooter(): JSX.Element {
             text={<KeyboardArrowUp />}
             keyboardKey="w"
           />
+
+          <div className="flex gap-8">
+            <ActionButton
+              fetchEndpoint={fetchEndpoint}
+              code={105}
+              throttle={throttle}
+              text={<KeyboardArrowLeft />}
+              keyboardKey="a"
+            />
+            <ActionButton
+              fetchEndpoint={fetchEndpoint}
+              code={106}
+              throttle={throttle}
+              text={<KeyboardArrowRight />}
+              keyboardKey="d"
+            />
+          </div>
+
           <ActionButton
             fetchEndpoint={fetchEndpoint}
             code={109}
