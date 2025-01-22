@@ -93,7 +93,7 @@ export default function Shooter(): JSX.Element {
         <div className="flex flex-col items-center justify-center gap-5 p-4 w-3/5">
           <img src={sight} className="h-4/5"></img>
         </div>
-        <div className="w-1/5 flex justify-center items-center flex-col gap-2">
+        <div className="w-1/5 flex justify-center items-center flex-col gap-8">
           <ActionButton
             fetchEndpoint={fetchEndpoint}
             code={108}
@@ -101,7 +101,7 @@ export default function Shooter(): JSX.Element {
             keyboardKey="w"
           />
 
-          <div className="flex gap-2">
+          <div className="flex gap-8">
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={105}
