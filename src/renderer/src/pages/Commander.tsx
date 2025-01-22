@@ -5,6 +5,9 @@ import ActionButton from '@renderer/components/ActionButton'
 import ThrottleSlider from '@renderer/components/ThrottleSlider'
 import BatteryFull from '../assets/svg/batery-full.svg'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
+import { CameraView } from '@renderer/components/CameraView'
+import { cameraUrls } from '../config'
+import { NightVision } from '@renderer/components/NightVision'
 
 export default function Commander(): JSX.Element {
   const fetchEndpoint = '/commander'
@@ -13,6 +16,8 @@ export default function Commander(): JSX.Element {
 
   return (
     <Layout>
+      <CameraView address={cameraUrls.commander} />
+
       <div className="absolute bottom-4 left-4">
         <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />
       </div>
@@ -34,8 +39,10 @@ export default function Commander(): JSX.Element {
         />
       </div>
 
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 flex flex-col items-center gap-4">
         <img src={BatteryFull} alt="" />
+
+        <NightVision address={cameraUrls.commander} />
       </div>
     </Layout>
   )

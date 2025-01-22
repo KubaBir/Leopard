@@ -10,6 +10,9 @@ import {
   KeyboardArrowDown
 } from '@mui/icons-material'
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
+import { CameraView } from '@renderer/components/CameraView'
+import { cameraUrls } from '../config'
+
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
@@ -56,6 +59,8 @@ export default function Shooter(): JSX.Element {
   }
   return (
     <Layout>
+      <CameraView address={cameraUrls.shooter} />
+
       <div className="w-full h-full flex justify-between">
         <div className="w-1/5  flex flex-col items-start gap-8 px-4 justify-center">
           <div className="flex flex-col items-center gap-2">
