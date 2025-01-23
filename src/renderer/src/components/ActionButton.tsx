@@ -48,7 +48,11 @@ export default function ActionButton({
     }
 
     const handleKeyUp = (event: KeyboardEvent): void => {
-      if (event.key.toLocaleLowerCase() === keyboardKey?.toLocaleLowerCase() && isActive) {
+      if (
+        event.key.toLocaleLowerCase() === keyboardKey?.toLocaleLowerCase() &&
+        isActive &&
+        shouldCancel
+      ) {
         handleCancel()
       }
     }
@@ -75,9 +79,13 @@ export default function ActionButton({
       }}
       onMouseUp={() => {
         if (isActive) {
-          handleCancel()
-          if (onAction) {
-            onAction()
+          if (shouldCancel) {
+            handleCancel()
+            if (onAction) {
+              onAction()
+            }
+          } else {
+            setIsActive(false)
           }
         }
       }}
