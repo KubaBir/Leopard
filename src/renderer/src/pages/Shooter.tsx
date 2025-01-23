@@ -12,7 +12,6 @@ import {
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
 import { CameraView } from '@renderer/components/CameraView'
 import { cameraUrls } from '../config'
-import { RequestButton } from '@renderer/components/RequestButton'
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
