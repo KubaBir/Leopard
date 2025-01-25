@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export interface LoadedResponse {
-  isCanonLoaded: boolean
-  isGunLoaded: boolean
+  isAPDSLoaded: boolean
+  isHELoaded: boolean
 }
 
 export const useFetch = (
