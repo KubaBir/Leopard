@@ -15,14 +15,14 @@ import { cameraUrls } from '../config'
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
-    isCanonLoaded: false,
-    isGunLoaded: false
+    isAPDSLoaded: false,
+    isHELoaded: false
   })
   const [throttle, setThrottle] = useState(80)
 
   const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
-  const { makeCall: shootCannon } = useFetch({}, '/setIsCanonLoaded', true)
-  const { makeCall: shootGun } = useFetch({}, '/setIsGunLoaded', true)
+  const { makeCall: shootAPDS } = useFetch({}, '/setIsAPDSLoaded', true)
+  const { makeCall: shootHE } = useFetch({}, '/setIsHELoaded', true)
   useEffect(() => {
     const fetchLoadedStatus = async (): Promise<void> => {
       const data = await checkIsLoaded()
@@ -36,23 +36,23 @@ export default function Shooter(): JSX.Element {
     return (): void => clearInterval(intervalId)
   }, [])
 
-  const handleCanonShot = async (): Promise<void> => {
-    if (isLoaded.isCanonLoaded) {
+  const handleAPDSShot = async (): Promise<void> => {
+    if (isLoaded.isAPDSLoaded) {
       setIsLoaded((prevState) => ({
         ...prevState,
-        isCanonLoaded: false
+        isAPDSLoaded: false
       }))
-      await shootCannon()
+      await shootAPDS()
     }
   }
 
-  const handleGunShot = async (): Promise<void> => {
-    if (isLoaded.isGunLoaded) {
+  const handleHEShot = async (): Promise<void> => {
+    if (isLoaded.isHELoaded) {
       setIsLoaded((prevState) => ({
         ...prevState,
-        isGunLoaded: false
+        isHELoaded: false
       }))
-      await shootGun()
+      await shootHE()
     }
   }
   return (
@@ -63,29 +63,29 @@ export default function Shooter(): JSX.Element {
         <div className="w-1/5  flex flex-col items-start gap-8 px-4 justify-center">
           <div className="flex flex-col items-center gap-2">
             <div
-              className={`h-6 w-6 rounded-full ${!isLoaded.isCanonLoaded ? 'bg-red-700' : 'bg-green-600'}`}
+              className={`h-6 w-6 rounded-full ${!isLoaded.isAPDSLoaded ? 'bg-red-700' : 'bg-green-600'}`}
             ></div>
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={110}
-              text="Cannon shot"
-              onAction={handleCanonShot}
-              disabled={!isLoaded.isCanonLoaded}
+              text="APDS"
+              onAction={handleAPDSShot}
+              disabled={!isLoaded.isAPDSLoaded}
               keyboardKey="k"
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
           <div className="flex flex-col items-center gap-2">
             <div
-              className={`h-6 w-6 rounded-full ${!isLoaded.isGunLoaded ? 'bg-red-700' : 'bg-green-600'}`}
+              className={`h-6 w-6 rounded-full ${!isLoaded.isHELoaded ? 'bg-red-700' : 'bg-green-600'}`}
             ></div>
             <ActionButton
               fetchEndpoint={fetchEndpoint}
-              code={111}
-              text="Machine gun shot"
-              onAction={handleGunShot}
+              code={110}
+              text="High explosive"
+              onAction={handleHEShot}
               keyboardKey="l"
-              disabled={!isLoaded.isGunLoaded}
+              disabled={!isLoaded.isHELoaded}
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
@@ -97,6 +97,13 @@ export default function Shooter(): JSX.Element {
           <img src={sight} className="h-4/5"></img>
         </div>
         <div className="w-1/5 flex justify-center items-center flex-col gap-8">
+          <ActionButton
+            fetchEndpoint={fetchEndpoint}
+            code={111}
+            text="Machine gun"
+            keyboardKey="l"
+            className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
+          ></ActionButton>
           <ActionButton
             fetchEndpoint={fetchEndpoint}
             code={108}

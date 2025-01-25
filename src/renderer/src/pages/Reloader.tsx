@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 import AmmoCounter from '@renderer/components/AmmoCounter'
-import GunIcon from '../assets/svg/gun.svg'
-import CanonIcon from '../assets/svg/canon.svg'
+import HEIcon from '../assets/svg/high-explosive.svg'
+import APDSIcon from '../assets/svg/canon.svg'
 import AmmoButton from '@renderer/components/AmmoButton'
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
 
 export default function Reloader(): JSX.Element {
-  const [canonCounter, setCanonCounter] = useState(12)
-  const [gunCounter, setGunCounter] = useState(12)
+  const [APDSCounter, setAPDSCounter] = useState(12)
+  const [HECounter, setHECounter] = useState(12)
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
-    isCanonLoaded: true,
-    isGunLoaded: true
+    isAPDSLoaded: true,
+    isHELoaded: true
   })
   const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
-  const { makeCall: loadCannon } = useFetch({}, '/setIsCanonLoaded', true)
-  const { makeCall: loadGun } = useFetch({}, '/setIsGunLoaded', true)
+  const { makeCall: loadCannon } = useFetch({}, '/setIsAPDSLoaded', true)
+  const { makeCall: loadHE } = useFetch({}, '/setIsHELoaded', true)
   useEffect(() => {
     const fetchLoadedStatus = async (): Promise<void> => {
       const data = await checkIsLoaded()
@@ -30,52 +30,52 @@ export default function Reloader(): JSX.Element {
     return (): void => clearInterval(intervalId)
   }, [])
 
-  const handleCanonLoad = async (): Promise<void> => {
-    if (isLoaded.isCanonLoaded) {
+  const handleAPDSLoad = async (): Promise<void> => {
+    if (isLoaded.isAPDSLoaded) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: 'Info',
-        message: 'Canon is already Loaded!',
+        message: 'APDS is already Loaded!',
         buttons: ['OK']
       })
-    } else if (canonCounter < 1) {
+    } else if (APDSCounter < 1) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: 'Info',
-        message: 'You do not have canonn ammunition left',
+        message: 'You do not have APDSn ammunition left',
         buttons: ['OK']
       })
     } else {
       const data = await loadCannon()
       if (data) {
-        setCanonCounter((prevState) => prevState - 1)
+        setAPDSCounter((prevState) => prevState - 1)
         setIsLoaded((prevState) => ({
           ...prevState,
-          isCanonLoaded: true
+          isAPDSLoaded: true
         }))
       }
     }
   }
 
-  const handleGunLoad = async (): Promise<void> => {
-    if (isLoaded.isGunLoaded) {
+  const handleHELoad = async (): Promise<void> => {
+    if (isLoaded.isHELoaded) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: 'Info',
-        message: 'Gun is already Loaded!',
+        message: 'HE is already Loaded!',
         buttons: ['OK']
       })
-    } else if (gunCounter < 1) {
+    } else if (HECounter < 1) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: 'Info',
-        message: 'You do not have gun ammunition left',
+        message: 'You do not have HE ammunition left',
         buttons: ['OK']
       })
     } else {
-      const data = await loadGun()
+      const data = await loadHE()
       if (data) {
         setIsLoaded((prevState) => ({
           ...prevState,
-          isGunLoaded: true
+          isHELoaded: true
         }))
-        setGunCounter((prevState) => prevState - 1)
+        setHECounter((prevState) => prevState - 1)
       }
     }
   }
@@ -86,20 +86,20 @@ export default function Reloader(): JSX.Element {
         className={`h-full w-full flex justify-between bg-[url(../assets/images/loader.webp)] bg-cover`}
       >
         <div className="flex flex-col gap-9 mt-24 w-1/3">
-          <AmmoCounter counter={canonCounter} icon={CanonIcon}></AmmoCounter>
-          <AmmoCounter counter={gunCounter} icon={GunIcon}></AmmoCounter>
+          <AmmoCounter counter={APDSCounter} icon={APDSIcon}></AmmoCounter>
+          <AmmoCounter counter={HECounter} icon={HEIcon}></AmmoCounter>
         </div>
         <div className="flex justify-center items-center w-1/3">
           <div className="flex justify-around w-full ">
             <AmmoButton
-              isLoaded={isLoaded.isCanonLoaded}
-              icon={CanonIcon}
-              handleLoad={handleCanonLoad}
+              isLoaded={isLoaded.isAPDSLoaded}
+              icon={APDSIcon}
+              handleLoad={handleAPDSLoad}
             ></AmmoButton>
             <AmmoButton
-              isLoaded={isLoaded.isGunLoaded}
-              icon={GunIcon}
-              handleLoad={handleGunLoad}
+              isLoaded={isLoaded.isHELoaded}
+              icon={HEIcon}
+              handleLoad={handleHELoad}
             ></AmmoButton>
           </div>
         </div>
