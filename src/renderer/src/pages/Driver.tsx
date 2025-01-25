@@ -17,7 +17,7 @@ export default function Driver(): JSX.Element {
 
   return (
     <Layout>
-      <CameraView address={cameraUrls.driver} />
+      <CameraView address={cameraUrls.driver} classes="rotate-180" />
 
       <div className="absolute bottom-4 left-4">
         <ThrottleSlider numBars={8} value={throttle} setValue={setThrottle} />
