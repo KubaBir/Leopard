@@ -12,7 +12,6 @@ import {
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
 import { CameraView } from '@renderer/components/CameraView'
 import { cameraUrls } from '../config'
-
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
@@ -24,7 +23,6 @@ export default function Shooter(): JSX.Element {
   const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
   const { makeCall: shootCannon } = useFetch({}, '/setIsCanonLoaded', true)
   const { makeCall: shootGun } = useFetch({}, '/setIsGunLoaded', true)
-
   useEffect(() => {
     const fetchLoadedStatus = async (): Promise<void> => {
       const data = await checkIsLoaded()
@@ -61,7 +59,7 @@ export default function Shooter(): JSX.Element {
     <Layout>
       <CameraView address={cameraUrls.shooter} />
 
-      <div className="w-full h-full flex justify-between">
+      <div className="w-full h-full flex justify-between z-10">
         <div className="w-1/5  flex flex-col items-start gap-8 px-4 justify-center">
           <div className="flex flex-col items-center gap-2">
             <div
@@ -105,7 +103,6 @@ export default function Shooter(): JSX.Element {
             text={<KeyboardArrowUp />}
             keyboardKey="w"
           />
-
           <div className="flex gap-8">
             <ActionButton
               fetchEndpoint={fetchEndpoint}
@@ -122,13 +119,20 @@ export default function Shooter(): JSX.Element {
               keyboardKey="d"
             />
           </div>
-
           <ActionButton
             fetchEndpoint={fetchEndpoint}
             code={109}
             text={<KeyboardArrowDown />}
             keyboardKey="s"
           />
+          <ActionButton
+            fetchEndpoint="centerTurret"
+            code={110}
+            text="Center"
+            keyboardKey="c"
+            shouldCancel={false}
+            className={`bg-gray-500 py-2 px-3 rounded-lg w-32 h-12 font-semibold text-2xl`}
+          ></ActionButton>{' '}
         </div>
       </div>
     </Layout>
