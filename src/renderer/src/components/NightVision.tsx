@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import nightVision from '../assets/svg/night-vision.svg'
+import dayVision from '../assets/svg/day-vision.svg'
 
 interface NightVisionProps {
   address: string
@@ -23,7 +24,7 @@ export const NightVision = ({ address }: NightVisionProps): JSX.Element => {
     <img
       className="cursor-pointer"
       onClick={() => (isNightVision ? disableNightVision() : enableNightVision())}
-      src={nightVision}
+      src={isNightVision ? nightVision : dayVision}
     ></img>
   )
 }

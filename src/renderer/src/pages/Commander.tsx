@@ -16,7 +16,9 @@ export default function Commander(): JSX.Element {
 
   return (
     <Layout>
-      <CameraView address={cameraUrls.commander} />
+      <div className="absolute -inset-20 top-[-30rem] left-[-10rem]">
+        <CameraView address={cameraUrls.commander} classes="" />
+      </div>
 
       <div className="absolute bottom-4 left-4">
         <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />

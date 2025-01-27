@@ -57,15 +57,22 @@ export default function Shooter(): JSX.Element {
   }
   return (
     <Layout>
-      <CameraView address={cameraUrls.shooter} />
+      <CameraView address={cameraUrls.shooter} classes="rotate-180" />
 
       <div className="w-full h-full flex justify-between z-10">
-        <div className="w-1/5  flex flex-col items-start gap-8 px-4 justify-center">
-          <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col gap-8 px-4 pt-4">
+          <div className="flex items-center gap-6 justify-center w-full">
             <div
-              className={`h-6 w-6 rounded-full ${!isLoaded.isAPDSLoaded ? 'bg-red-700' : 'bg-green-600'}`}
-            ></div>
-            <ActionButton
+              className={`size-[70px] flex shadow-inner ring-2 justify-center items-center rounded-full ${!isLoaded.isAPDSLoaded ? 'bg-red-900 ring-red-950' : 'bg-green-600 ring-green-700'}`}
+            >
+              APDS
+            </div>
+            <div
+              className={`size-[70px] flex justify-center items-center ring-2  rounded-full ${!isLoaded.isAPDSLoaded ? 'bg-red-900 ring-red-950' : 'bg-green-600 ring-green-700'}`}
+            >
+              HE
+            </div>
+            {/* <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={110}
               text="APDS"
@@ -73,37 +80,33 @@ export default function Shooter(): JSX.Element {
               disabled={!isLoaded.isAPDSLoaded}
               keyboardKey="k"
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
-            ></ActionButton>
+            ></ActionButton> */}
           </div>
           <div className="flex flex-col items-center gap-2">
-            <div
-              className={`h-6 w-6 rounded-full ${!isLoaded.isHELoaded ? 'bg-red-700' : 'bg-green-600'}`}
-            ></div>
             <ActionButton
               fetchEndpoint={fetchEndpoint}
               code={110}
-              text="High explosive"
+              text="Fire"
               onAction={handleHEShot}
               keyboardKey="l"
               disabled={!isLoaded.isHELoaded}
+              className={`bg-red-700 cursor-pointer py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
+            ></ActionButton>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <ActionButton
+              fetchEndpoint={fetchEndpoint}
+              code={111}
+              text="Machine gun"
+              keyboardKey="l"
               className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
-          <div className="flex justify-center items-center">
-            <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />
-          </div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-5 p-4 w-3/5">
+        <div className="flex flex-col items-center justify-center gap-5 p-4 absolute inset-0 -z-10">
           <img src={sight} className="h-4/5"></img>
         </div>
         <div className="w-1/5 flex justify-center items-center flex-col gap-8">
-          <ActionButton
-            fetchEndpoint={fetchEndpoint}
-            code={111}
-            text="Machine gun"
-            keyboardKey="l"
-            className={`bg-red-700 py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
-          ></ActionButton>
           <ActionButton
             fetchEndpoint={fetchEndpoint}
             code={108}
@@ -132,15 +135,22 @@ export default function Shooter(): JSX.Element {
             text={<KeyboardArrowDown />}
             keyboardKey="s"
           />
-          <ActionButton
-            fetchEndpoint="centerTurret"
-            code={110}
-            text="Center"
-            keyboardKey="c"
-            shouldCancel={false}
-            className={`bg-gray-500 py-2 px-3 rounded-lg w-32 h-12 font-semibold text-2xl`}
-          ></ActionButton>{' '}
         </div>
+      </div>
+
+      <div className="flex justify-center items-center self-start absolute bottom-8 left-8">
+        <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />
+      </div>
+
+      <div className="absolute bottom-8 right-8">
+        <ActionButton
+          fetchEndpoint="centerTurret"
+          code={110}
+          text="Center"
+          keyboardKey="c"
+          shouldCancel={false}
+          className={`bg-gray-500 py-2 px-3 rounded-lg w-32 h-12 font-semibold text-2xl`}
+        ></ActionButton>
       </div>
     </Layout>
   )

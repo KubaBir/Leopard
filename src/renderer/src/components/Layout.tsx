@@ -20,7 +20,7 @@ export default function Layout({ children }: LayoutProps): JSX.Element {
 
   return (
     <div className="w-screen h-screen bg-black relative overflow-clip flex flex-col">
-      <div className="h-14 bg-gray-900 items-center justify-center grid grid-cols-3">
+      <div className="h-14 bg-gray-900 items-center justify-center grid grid-cols-3 px-2">
         {location.pathname === '/' ? <div /> : <RedirectButton to="/">Home</RedirectButton>}
         <div className="text-center text-xl leading-3">
           {time.toLocaleTimeString('pl-PL', {
@@ -29,7 +29,9 @@ export default function Layout({ children }: LayoutProps): JSX.Element {
           })}
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center relative flex-1">{children}</div>
+      <div className="flex flex-col justify-center items-center relative flex-1 overflow-clip">
+        {children}
+      </div>
     </div>
   )
 }
