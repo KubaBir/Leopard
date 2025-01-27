@@ -18,11 +18,11 @@ export const useFetch = (
         : await axios.get(final_url, { params: args })
       return response.data
     } catch (err) {
-      await window.electron.ipcRenderer.invoke('show-message-box', {
-        title: err.name,
-        message: err.message,
-        buttons: ['OK']
-      })
+      // await window.electron.ipcRenderer.invoke('show-message-box', {
+      //   title: err.name,
+      //   message: err.message,
+      //   buttons: ['OK']
+      // })
     }
   }
 
