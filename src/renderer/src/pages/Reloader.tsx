@@ -14,8 +14,8 @@ export default function Reloader(): JSX.Element {
     isHELoaded: true
   })
   const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
-  const { makeCall: loadCannon } = useFetch({}, '/setIsAPDSLoaded', true)
-  const { makeCall: loadHE } = useFetch({}, '/setIsHELoaded', true)
+  const { makeCall: loadCannon } = useFetch({}, '/setisAPDSLoaded', true)
+  const { makeCall: loadHE } = useFetch({}, '/setisHELoaded', true)
   useEffect(() => {
     const fetchLoadedStatus = async (): Promise<void> => {
       const data = await checkIsLoaded()

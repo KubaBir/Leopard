@@ -21,8 +21,8 @@ export default function Shooter(): JSX.Element {
   const [throttle, setThrottle] = useState(80)
 
   const { makeCall: checkIsLoaded } = useFetch({}, '/getIsLoaded', false)
-  const { makeCall: shootAPDS } = useFetch({}, '/setIsAPDSLoaded', true)
-  const { makeCall: shootHE } = useFetch({}, '/setIsHELoaded', true)
+  const { makeCall: shootAPDS } = useFetch({}, '/setisAPDSLoaded', true)
+  const { makeCall: shootHE } = useFetch({}, '/setisHELoaded', true)
   useEffect(() => {
     const fetchLoadedStatus = async (): Promise<void> => {
       const data = await checkIsLoaded()
