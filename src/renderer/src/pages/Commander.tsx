@@ -1,4 +1,3 @@
-import { Slider } from '@mui/material'
 import Layout from '../components/Layout'
 import { useState } from 'react'
 import ActionButton from '@renderer/components/ActionButton'

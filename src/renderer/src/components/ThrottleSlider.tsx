@@ -1,5 +1,4 @@
 import { Slider } from '@mui/material'
-import { useState } from 'react'
 
 interface ThrottleSLiderProps {
   min?: number

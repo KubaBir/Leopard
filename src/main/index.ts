@@ -53,6 +53,7 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   ipcMain.handle('show-message-box', async (event, options) => {
+    event
     const result = await dialog.showMessageBox(options)
     return result
   })

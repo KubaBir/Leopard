@@ -2,7 +2,7 @@ import Layout from '../components/Layout'
 import RedirectButton from '../components/RedirectButton'
 import { useFetch } from '@renderer/hooks/useFetch'
 export default function Home(): JSX.Element {
-  const { makeCall: testConnection } = useFetch({ data: 'ping' }, '/ping')
+  const { makeCall: testConnection } = useFetch({}, '/ping')
 
   return (
     <Layout>
