@@ -31,10 +31,10 @@ export default function Reloader(): JSX.Element {
   }, [])
 
   const handleAPDSLoad = async (): Promise<void> => {
-    if (isLoaded.isAPDSLoaded) {
+    if (isLoaded.isAPDSLoaded || isLoaded.isHELoaded) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: 'Info',
-        message: 'APDS is already Loaded!',
+        message: 'Canon is already Loaded!',
         buttons: ['OK']
       })
     } else if (APDSCounter < 1) {
@@ -56,10 +56,10 @@ export default function Reloader(): JSX.Element {
   }
 
   const handleHELoad = async (): Promise<void> => {
-    if (isLoaded.isHELoaded) {
+    if (isLoaded.isAPDSLoaded || isLoaded.isHELoaded) {
       await window.electron.ipcRenderer.invoke('show-message-box', {
         title: 'Info',
-        message: 'HE is already Loaded!',
+        message: 'Canon is already Loaded!',
         buttons: ['OK']
       })
     } else if (HECounter < 1) {
