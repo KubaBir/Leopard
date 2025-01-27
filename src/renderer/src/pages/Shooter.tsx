@@ -87,9 +87,15 @@ export default function Shooter(): JSX.Element {
               fetchEndpoint={fetchEndpoint}
               code={110}
               text="Fire"
-              onAction={handleHEShot}
+              onAction={
+                isLoaded.isHELoaded
+                  ? handleHEShot
+                  : isLoaded.isAPDSLoaded
+                    ? handleAPDSShot
+                    : undefined
+              }
               keyboardKey="l"
-              disabled={!isLoaded.isHELoaded || !isLoaded.isAPDSLoaded}
+              disabled={!isLoaded.isHELoaded && !isLoaded.isAPDSLoaded}
               className={`bg-red-700 cursor-pointer py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
