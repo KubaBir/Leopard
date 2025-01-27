@@ -68,7 +68,7 @@ export default function Shooter(): JSX.Element {
               APDS
             </div>
             <div
-              className={`size-[70px] flex justify-center items-center ring-2  rounded-full ${!isLoaded.isAPDSLoaded ? 'bg-red-900 ring-red-950' : 'bg-green-600 ring-green-700'}`}
+              className={`size-[70px] flex justify-center items-center ring-2  rounded-full ${!isLoaded.isHELoaded ? 'bg-red-900 ring-red-950' : 'bg-green-600 ring-green-700'}`}
             >
               HE
             </div>
