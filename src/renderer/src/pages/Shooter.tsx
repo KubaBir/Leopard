@@ -89,7 +89,7 @@ export default function Shooter(): JSX.Element {
               text="Fire"
               onAction={handleHEShot}
               keyboardKey="l"
-              disabled={!isLoaded.isHELoaded}
+              disabled={!isLoaded.isHELoaded || !isLoaded.isAPDSLoaded}
               className={`bg-red-700 cursor-pointer py-2 px-3 rounded-full w-32 h-32 font-bold text-2xl`}
             ></ActionButton>
           </div>
