@@ -24,7 +24,7 @@ export const NightVision = ({ address }: NightVisionProps): JSX.Element => {
     <img
       className="cursor-pointer"
       onClick={() => (isNightVision ? disableNightVision() : enableNightVision())}
-      src={isNightVision ? nightVision : dayVision}
+      src={!isNightVision ? nightVision : dayVision}
     ></img>
   )
 }

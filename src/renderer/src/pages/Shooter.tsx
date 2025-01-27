@@ -142,7 +142,7 @@ export default function Shooter(): JSX.Element {
         <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />
       </div>
 
-      <div className="absolute bottom-8 right-8">
+      <div className="absolute bottom-8 right-8 z-50">
         <ActionButton
           fetchEndpoint="centerTurret"
           code={110}
