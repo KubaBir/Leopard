@@ -20,21 +20,21 @@ export default function Commander(): JSX.Element {
         <CameraView address={cameraUrls.commander} classes="" />
       </div>
 
-      <div className="absolute bottom-4 left-4">
+      {/* <div className="absolute bottom-4 left-4">
         <ThrottleSlider numBars={4} value={throttle} setValue={setThrottle} />
-      </div>
+      </div> */}
 
       <div className="absolute top-4 left-1/2 -translate-x-1/2 gap-4 flex">
         <ActionButton
           fetchEndpoint={fetchEndpoint}
-          code={105}
+          code={113}
           throttle={throttle}
           text={<KeyboardArrowLeft />}
           keyboardKey="a"
         />
         <ActionButton
           fetchEndpoint={fetchEndpoint}
-          code={106}
+          code={114}
           throttle={throttle}
           text={<KeyboardArrowRight />}
           keyboardKey="d"
