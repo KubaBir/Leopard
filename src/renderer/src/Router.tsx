@@ -5,7 +5,6 @@ import Shooter from './pages/Shooter'
 import Reloader from './pages/Reloader'
 import Commander from './pages/Commander'
 import NotFound from './pages/NotFound'
-
 export function AppRouter(): JSX.Element {
   return (
     <Router>
