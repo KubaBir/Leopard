@@ -25,6 +25,7 @@ export default function Commander(): JSX.Element {
 
       <div className="absolute top-4 left-1/2 -translate-x-1/2 gap-4 flex">
         <ActionButton
+          shouldCancel={false}
           fetchEndpoint={fetchEndpoint}
           code={113}
           throttle={throttle}
@@ -32,6 +33,7 @@ export default function Commander(): JSX.Element {
           keyboardKey="a"
         />
         <ActionButton
+          shouldCancel={false}
           fetchEndpoint={fetchEndpoint}
           code={114}
           throttle={throttle}

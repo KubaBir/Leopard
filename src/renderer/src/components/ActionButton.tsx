@@ -55,6 +55,7 @@ export default function ActionButton({
       ) {
         handleCancel()
       }
+      if (!shouldCancel) setIsActive(false)
     }
 
     window.addEventListener('keydown', handleKeyDown)
