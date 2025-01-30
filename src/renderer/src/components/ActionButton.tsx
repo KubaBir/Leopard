@@ -32,9 +32,7 @@ export default function ActionButton({
   const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)
   const { makeCall: cancelRequest } = useFetch(
     requestData,
-    cancelEndpoint.length > 0
-      ? `${fetchEndpoint}/cancel/${cancelEndpoint}`
-      : `${fetchEndpoint}/cancel`
+    cancelEndpoint ? `${fetchEndpoint}/cancel/${cancelEndpoint}` : `${fetchEndpoint}/cancel`
   )
   const [isActive, setIsActive] = useState(false)
 
