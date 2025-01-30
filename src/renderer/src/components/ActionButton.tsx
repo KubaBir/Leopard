@@ -12,6 +12,7 @@ interface ActionButtonProps {
   className?: string
   disabled?: boolean
   children?: ReactElement
+  cancelEndpoint?: string
 }
 
 export default function ActionButton({
@@ -24,11 +25,17 @@ export default function ActionButton({
   onAction,
   className,
   disabled,
-  children
+  children,
+  cancelEndpoint
 }: ActionButtonProps): JSX.Element {
   const requestData = { code, throttle }
   const { makeCall: makeCall } = useFetch(requestData, fetchEndpoint)
-  const { makeCall: cancelRequest } = useFetch(requestData, `${fetchEndpoint}/cancel`)
+  const { makeCall: cancelRequest } = useFetch(
+    requestData,
+    cancelEndpoint.length > 0
+      ? `${fetchEndpoint}/cancel/${cancelEndpoint}`
+      : `${fetchEndpoint}/cancel`
+  )
   const [isActive, setIsActive] = useState(false)
 
   const handleRequest = (): void => {
