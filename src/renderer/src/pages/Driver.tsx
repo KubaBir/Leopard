@@ -9,6 +9,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { KeyboardArrowLeft } from '@mui/icons-material'
 import { CameraView } from '@renderer/components/CameraView'
 import { cameraUrls } from '../config'
+import { NightVision } from '@renderer/components/NightVision'
 
 export default function Driver(): JSX.Element {
   const fetchEndpoint = '/driver'
@@ -25,6 +26,7 @@ export default function Driver(): JSX.Element {
     const event = new KeyboardEvent('keyup', { key })
     window.dispatchEvent(event)
   }
+
   useEffect(() => {
     const handleGamepadConnected = (event: GamepadEvent) => {
       console.log('Gamepad connected:', event.gamepad)
@@ -96,6 +98,7 @@ export default function Driver(): JSX.Element {
       }
     }
   }, [isConnected])
+
   return (
     <Layout>
       <CameraView address={cameraUrls.driver} classes="rotate-180" />
@@ -146,8 +149,10 @@ export default function Driver(): JSX.Element {
         />
       </div>
 
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 flex flex-col items-center gap-4">
         <img src={BatteryFull} alt="" />
+
+        <NightVision address={cameraUrls.driver} />
       </div>
     </Layout>
   )

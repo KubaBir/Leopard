@@ -12,6 +12,7 @@ import {
 import { useFetch, LoadedResponse } from '../hooks/useFetch'
 import { CameraView } from '@renderer/components/CameraView'
 import { cameraUrls } from '../config'
+import { NightVision } from '@renderer/components/NightVision'
 export default function Shooter(): JSX.Element {
   const fetchEndpoint = '/gunner'
   const [isLoaded, setIsLoaded] = useState<LoadedResponse>({
@@ -55,6 +56,54 @@ export default function Shooter(): JSX.Element {
       await shootHE()
     }
   }
+
+  const [position, setPosition] = useState(0)
+  const [keysPressed, setKeysPressed] = useState({})
+  const moveSpeed = 1 // Adjust this value to control movement speed
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      setKeysPressed((prevKeys) => ({
+        ...prevKeys,
+        [e.key.toLowerCase()]: true
+      }))
+    }
+
+    const handleKeyUp = (e) => {
+      setKeysPressed((prevKeys) => ({
+        ...prevKeys,
+        [e.key.toLowerCase()]: false
+      }))
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+
+    // Animation frame for smooth movement
+    let animationFrameId
+    const updatePosition = () => {
+      setPosition((prev) => {
+        let newPosition = prev
+        if (keysPressed['w']) {
+          newPosition = Math.max(newPosition - moveSpeed, -100)
+        }
+        if (keysPressed['s']) {
+          newPosition = Math.min(newPosition + moveSpeed, 100) // Move up
+        }
+        return newPosition
+      })
+      animationFrameId = requestAnimationFrame(updatePosition)
+    }
+
+    animationFrameId = requestAnimationFrame(updatePosition)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+      cancelAnimationFrame(animationFrameId)
+    }
+  }, [keysPressed])
+
   return (
     <Layout>
       <CameraView address={cameraUrls.shooter} classes="rotate-180" />
@@ -109,7 +158,13 @@ export default function Shooter(): JSX.Element {
             ></ActionButton>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-5 p-4 absolute inset-0 -z-10">
+        <div
+          className="flex flex-col items-center justify-center gap-5 p-4 absolute inset-0 -z-10"
+          style={{
+            transform: `translateY(${position}px)`,
+            transition: 'transform 0.1s linear'
+          }}
+        >
           <img src={sight} className="h-4/5"></img>
         </div>
         <div className="w-1/5 flex justify-center items-center flex-col gap-8">
@@ -157,6 +212,10 @@ export default function Shooter(): JSX.Element {
           shouldCancel={false}
           className={`bg-gray-500 py-2 px-3 rounded-lg w-32 h-12 font-semibold text-2xl`}
         ></ActionButton>
+      </div>
+
+      <div className="absolute top-4 right-4 z-50">
+        <NightVision address={cameraUrls.shooter} />
       </div>
     </Layout>
   )

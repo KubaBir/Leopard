@@ -10,9 +10,9 @@ export default function Home(): JSX.Element {
         <h1 className="text-xl mb-6">Home Page</h1>
         <div className="flex w-full justify-center gap-5">
           <RedirectButton to="/driver">Driver</RedirectButton>
+          <RedirectButton to="/shooter">Gunner</RedirectButton>
           <RedirectButton to="/commander">Commander</RedirectButton>
-          <RedirectButton to="/shooter">Shooter</RedirectButton>
-          <RedirectButton to="/reloader">Reloader</RedirectButton>
+          <RedirectButton to="/reloader">Loader</RedirectButton>
         </div>
         <div
           className="p-2 cursor-pointer rounded-md bg-teal-300/60 hover:bg-teal-400/60"
